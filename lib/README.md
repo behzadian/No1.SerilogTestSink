@@ -1,4 +1,4 @@
-# No1.EnvBasedEndpoints
+# No1.SerilogTestSink
 
 With SerilogTestSink, you can check wether specific message is being logged or not.
 
