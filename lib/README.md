@@ -6,9 +6,14 @@ With SerilogTestSink, you can check wether specific message is being logged or n
 
 #### Add SerilogTestSink to your serilog configuration:
 
-Add `No1.SerilogTestSink` to project's dependencies:
+Add `No1.SerilogTestSink` to project's dependencies. Add below lines to your .csproj file:
+```
+<ItemGroup Condition="'$(IsTestProject)' == 'true'">
+	<PackageReference Include="No1.SerilogTestSink" Version="1.0.0.1" />
+</ItemGroup>
+```
 
-``
+Please note this dependency only when added to dependencies that project is being tested. Note to (IsTestProject variable)
 
 Then add below configs in your test configuration. For example in `appsettings.test.json`:
 
@@ -98,6 +103,7 @@ So I used this methods to post log messages and then used below method to make m
 LogEventExtensions.Match
 
 ```
+
 
 ### Building
 
