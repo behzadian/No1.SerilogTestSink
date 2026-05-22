@@ -64,7 +64,7 @@ public async Task WhenAnEndpointThrowsExceptionThenExceptionWillBeLogged() {
 
 ### What is method `Match`?
 
-It is optmized to define a method for eveny log message like below:
+It is optimized to define a method for eveny log message like below:
 ```cs
 internal partial class TestLogTemplates
 {
@@ -92,22 +92,11 @@ internal partial class TestLogTemplates
 }
 ```
 
-So I used this methods to make my tests more clear. It is up to you to use it or not:
+So I used this methods to post log messages and then used below method to make my tests more clear. It is up to you to use it or not:
 
 ```
-public static class LogEventExtensions
-{
-	static readonly BindingFlags methodBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic;
+LogEventExtensions.Match
 
-	public static bool Match<T>(this LogEvent x, string methodName) {
-		var methodInfo = UnexptedNullException.Get(() => typeof(T).GetMethod(methodName, methodBindingFlags));
-		var loggerMessage = UnexptedNullException.Get(() => methodInfo.GetCustomAttribute<LoggerMessageAttribute>());
-		var messageMatched = x.MessageTemplate.Text.Equals(loggerMessage.Message, StringComparison.Ordinal);
-		var levelMatched = (int)x.Level == (int)loggerMessage.Level;
-
-		return messageMatched && levelMatched;
-	}
-}
 ```
 
 ### Building
