@@ -9,15 +9,22 @@
 		<IsPackable>true</IsPackable>
 		<AssemblyName>No1.SerilogTestSink</AssemblyName>
 		<RootNamespace>No1.SerilogTestSink</RootNamespace>
+		<Title>No1.SerilogTestSink</Title>
+		<Description>Provides a Serilog sink to test logging.</Description>
+		<PackageProjectUrl>https://github.com/behzadian/No1.SerilogTestSink</PackageProjectUrl>
 		<PackageId>No1.SerilogTestSink</PackageId>
-		<Authors>Hank Ben</Authors>
+		<Authors>Hank Benz</Authors>
 		<Company>No1</Company>
 		<Product>No1.SerilogTestSink</Product>
-		<Version>1.0.1.0</Version>
+		<Version>1.0.2</Version>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-	</PropertyGroup>
-	<PropertyGroup>
+		<RepositoryUrl>git@github.com:behzadian/No1.SerilogTestSink.git</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<NoWarn>CS1591,SA1600,SA1200,SA1601,SA1633,SA1500,RCS1194,SA1300</NoWarn>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<AnalysisLevel>latest</AnalysisLevel>
@@ -26,13 +33,47 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="\" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2">
-			<TreatAsUsed>true</TreatAsUsed>
-		</PackageReference>
-		<PackageReference Include="Serilog" Version="4.3.1" />
 	</ItemGroup>
 
-	<Target Name="InstallHusky" AfterTargets="Restore" Condition="'$(HUSKY)' != '0'">
+	<ItemGroup>
+		<!-- Microsoft Code Analysis -->
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<!-- StyleCop Analyzers -->
+		<PackageReference Include="StyleCop.Analyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<!-- Roslynator -->
+		<PackageReference Include="Roslynator.Analyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<!-- SonarAnalyzer -->
+		<PackageReference Include="SonarAnalyzer.CSharp">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="nest" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+	</ItemGroup>
+
+	<!-- Git hooks: skip in CI/Docker (no .git / not wanted in images). Local dev: run restore from
+	repo root so dotnet-tools.json is found. -->
+	<Target Name="InstallHusky" AfterTargets="Restore"
+		Condition="'$(HUSKY)' != '0' AND '$(CI)' != 'true'">
 		<Exec Command="dotnet tool restore" StandardOutputImportance="Low" />
 		<Exec Command="dotnet husky install" StandardOutputImportance="Low" />
 	</Target>

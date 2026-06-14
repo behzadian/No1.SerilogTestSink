@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Serilog.Events;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace No1.SerilogTestSink;
 
