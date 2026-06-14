@@ -1,9 +1,6 @@
-﻿using Serilog.Core;
+using Serilog.Core;
 using Serilog.Events;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 
 namespace No1.SerilogTestSink;
 

@@ -1,15 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Serilog.Events;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace No1.SerilogTestSink;
 
 public static class LogEventExtensions
 {
-	const BindingFlags MethodBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic;
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields", Justification = "Safe")]
+	private const BindingFlags MethodBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic;
 
 	public static bool Match<T>(this LogEvent logEvent, string methodName) {
 		ArgumentNullException.ThrowIfNull(logEvent);
